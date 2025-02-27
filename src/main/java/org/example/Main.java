@@ -1,66 +1,56 @@
 package org.example;
-import java.util.Scanner;
+import java.util.Random;
+
 
 public class Main {
-        public static void main(String[] args) {
-            Scanner teclado = new Scanner(System.in);
+    public static void main(String[] args) {
 
-            String[] productos = {"Agua Manantial", "Coca Cola", "Papas Margaritas", "Chocolatina Jumbo", "Galletas Festival"};
-            double[] precios = {2000, 3500, 2500, 3000, 2800};
+        int victoriaPC1 = 0;
+        int victoriaPC2 = 0;
 
-            boolean continuar = true;
+        Random numerosaleatorios = new Random();
 
-            System.out.println("Bienvenido a la máquina expendedora");
-            System.out.print("Ingresa la cantidad de dinero disponible: $");
-            double saldo = teclado.nextDouble();
+        String[] jugadas = {"", "PIEDRA", "PAPEL", "TIJERA"};
 
-            while (continuar) {
-                System.out.println("\nMENÚ DE PRODUCTOS");
-                for (int i = 0; i < productos.length; i++) {
-                    System.out.println((i + 1) + ". " + productos[i] + " - $" + precios[i]);
-                }
-                System.out.println("6. Finalizar compra");
+        int NRondas = 1;
 
-                double totalCompra = 0;
-                int contador = 0;
+        while (victoriaPC1 < 2 && victoriaPC2 < 2) {
+            System.out.println("RONDA # " + NRondas);
+            System.out.println("Marcador: Computadora 1: " + victoriaPC1 + " - Computadora 2: " + victoriaPC2);
 
-                while (contador < 5) {
-                    System.out.print("\nSelecciona un producto (1-5) o 6 para finalizar: ");
-                    int opcion = teclado.nextInt();
 
-                    if (opcion == 6) {
-                        break;
-                    }
+            int eleccionAleatoriaPC1 = numerosaleatorios.nextInt(3) + 1;
+            int eleccionAleatoriaPC2 = numerosaleatorios.nextInt(3) + 1;
 
-                    if (opcion < 1 || opcion > 5) {
-                        System.out.println("Opción inválida. Intente nuevamente.");
-                        continue;
-                    }
+            System.out.println("Computadora 1 Elige:" + jugadas[eleccionAleatoriaPC1]);
+            System.out.println("Computadora 2 Elige:" + jugadas[eleccionAleatoriaPC2]);
 
-                    if (totalCompra + precios[opcion - 1] > saldo) {
-                        System.out.println("No tienes suficiente dinero para este producto.");
-                    } else {
-                        totalCompra += precios[opcion - 1];
-                        System.out.println("Agregaste: " + productos[opcion - 1] + " ($" + precios[opcion - 1] + ")");
-                        contador++;
-                    }
-                }
 
-                if (totalCompra > 0) {
-                    saldo -= totalCompra;
-                    System.out.println("\nTotal a pagar: $" + totalCompra);
-                    System.out.println("Pago exitoso. Tu cambio es: $" + saldo);
-                } else {
-                    System.out.println("No compraste ningún producto.");
-                }
-
-                System.out.print("\n¿Deseas hacer otra compra? (1: Sí, 2: No): ");
-                int respuesta = teclado.nextInt();
-                continuar = (respuesta == 1);
+            if (eleccionAleatoriaPC1 == eleccionAleatoriaPC2) {
+                System.out.println("EMPATE, se repite la ronda");
+            } else if ((eleccionAleatoriaPC1 == 1 && eleccionAleatoriaPC2 == 3) ||
+                      (eleccionAleatoriaPC1 == 2 && eleccionAleatoriaPC2 == 1) ||
+                      (eleccionAleatoriaPC1 == 3 && eleccionAleatoriaPC2 == 2)) {
+                System.out.println("Computadora 1 es la ganadora");
+                victoriaPC1++;
+            }  else{
+                System.out.println("Computadora 2 es la ganadora");
+                victoriaPC2++;
             }
+            NRondas++;
+        }
 
-            System.out.println("Gracias por usar la máquina expendedora. ¡Vuelve pronto!");
-            teclado.close();
+        System.out.println("\n=== JUEGO TERMINADO ===");
+        if (victoriaPC1 > victoriaPC2) {
+            System.out.println("Computadora 1 ha ganado el juego " + victoriaPC1 + " a " + victoriaPC2);
+        } else {
+            System.out.println("Computadora 2 ha ganado el juego " + victoriaPC2 + " a " + victoriaPC1);
         }
     }
+
+
+
+}
+
+
 

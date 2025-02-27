@@ -30,7 +30,7 @@ public class Main {
             System.out.print("Ingresa la temperatura: ");
             double temperatura = scanner.nextDouble();
 
-            double resultado = 0; // Inicializamos resultado con un valor por defecto
+            double resultado = 0;
 
             switch (opcion) {
                 case 1 -> resultado = (5 * (temperatura - 32)) / 9;
@@ -52,7 +52,7 @@ public class Main {
                 default -> System.out.println("Opción no válida.");
             }
 
-            // Solo imprimimos el resultado si la opción fue válida
+
             if (opcion >= 1 && opcion <= 16) {
                 System.out.println("Resultado: " + resultado);
             }

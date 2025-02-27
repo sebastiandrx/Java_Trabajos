@@ -3,61 +3,63 @@ import java.util.Scanner;
 
 public class Main {
         public static void main(String[] args) {
-            double saldo = 50000;
             Scanner teclado = new Scanner(System.in);
+
+            String[] productos = {"Agua Manantial", "Coca Cola", "Papas Margaritas", "Chocolatina Jumbo", "Galletas Festival"};
+            double[] precios = {2000, 3500, 2500, 3000, 2800};
+
             boolean continuar = true;
 
-            System.out.println("Bienvenido al Cajero Automático");
+            System.out.println("Bienvenido a la máquina expendedora");
+            System.out.print("Ingresa la cantidad de dinero disponible: $");
+            double saldo = teclado.nextDouble();
 
             while (continuar) {
-                System.out.println("\nMENÚ PRINCIPAL");
-                System.out.println("1. Consultar Saldo");
-                System.out.println("2. Ingresar Dinero");
-                System.out.println("3. Retirar Dinero");
-                System.out.println("4. Salir");
-                System.out.print("Seleccione una opción: ");
-
-                int opcion = teclado.nextInt();
-
-                switch (opcion) {
-                    case 1 -> {
-                        System.out.println("CONSULTA DE TU SALDO");
-                        System.out.println("Su saldo actual es: $" + saldo);
-                    }
-                    case 2 -> {
-                        System.out.println("INGRESO DE DINERO");
-                        System.out.print("Ingrese la cantidad a depositar: $");
-                        double ingreso = teclado.nextDouble();
-                        if (ingreso > 0) {
-                            saldo += ingreso;
-                            System.out.println("Depósito exitoso. Su nuevo saldo es: $" + saldo);
-                        } else {
-                            System.out.println("La cantidad debe ser mayor que cero.");
-                        }
-                    }
-                    case 3 -> {
-                        System.out.println("RETIRO DE DINERO");
-                        System.out.print("Ingrese la cantidad a retirar: $");
-                        double retiro = teclado.nextDouble();
-                        if (retiro > 0) {
-                            if (retiro <= saldo) {
-                                saldo -= retiro;
-                                System.out.println("Retiro exitoso. Su nuevo saldo es: $" + saldo);
-                            } else {
-                                System.out.println("Fondos insuficientes. No se pudo realizar el retiro.");
-                            }
-                        } else {
-                            System.out.println("La cantidad debe ser mayor que cero.");
-                        }
-                    }
-                    case 4 -> {
-                        System.out.println("Gracias por utilizar nuestro cajero automático.");
-                        continuar = false;
-                    }
-                    default -> System.out.println("Opción inválida. Por favor, seleccione una opción válida.");
+                System.out.println("\nMENÚ DE PRODUCTOS");
+                for (int i = 0; i < productos.length; i++) {
+                    System.out.println((i + 1) + ". " + productos[i] + " - $" + precios[i]);
                 }
+                System.out.println("6. Finalizar compra");
+
+                double totalCompra = 0;
+                int contador = 0;
+
+                while (contador < 5) {
+                    System.out.print("\nSelecciona un producto (1-5) o 6 para finalizar: ");
+                    int opcion = teclado.nextInt();
+
+                    if (opcion == 6) {
+                        break;
+                    }
+
+                    if (opcion < 1 || opcion > 5) {
+                        System.out.println("Opción inválida. Intente nuevamente.");
+                        continue;
+                    }
+
+                    if (totalCompra + precios[opcion - 1] > saldo) {
+                        System.out.println("No tienes suficiente dinero para este producto.");
+                    } else {
+                        totalCompra += precios[opcion - 1];
+                        System.out.println("Agregaste: " + productos[opcion - 1] + " ($" + precios[opcion - 1] + ")");
+                        contador++;
+                    }
+                }
+
+                if (totalCompra > 0) {
+                    saldo -= totalCompra;
+                    System.out.println("\nTotal a pagar: $" + totalCompra);
+                    System.out.println("Pago exitoso. Tu cambio es: $" + saldo);
+                } else {
+                    System.out.println("No compraste ningún producto.");
+                }
+
+                System.out.print("\n¿Deseas hacer otra compra? (1: Sí, 2: No): ");
+                int respuesta = teclado.nextInt();
+                continuar = (respuesta == 1);
             }
 
+            System.out.println("Gracias por usar la máquina expendedora. ¡Vuelve pronto!");
             teclado.close();
         }
     }
